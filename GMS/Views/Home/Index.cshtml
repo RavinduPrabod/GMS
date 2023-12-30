@@ -1,0 +1,50 @@
+﻿@model GMS.Models.MemberMaster
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="SetPhysicalLocationList">
+                <tr id="LoadingStatus" style="color:red"></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+        function GetWHPhysicalLocation() {
+
+        $("#SetPhysicalLocationList").html(" "); ChangeLocation
+
+        $.ajax({
+            type: 'GET',
+            url: '/Maintenance/getPhysicalLoactions',
+            success: function (data) {
+
+                var obj = JSON.parse(data);
+
+                var SetData = $("#SetPhysicalLocationList");
+                for (var i = 0; i < obj.length; i++) {
+
+                    var Data = "<tr class='row_" + obj[i].id + "'>" +
+                        "<td>" + obj[i].name + "</td>"
+                         "</tr>";
+                    SetData.append(Data);
+                    //$("#LoadingStatus").html(" ");
+
+                }
+            },
+        });
+
+    }
+    </Script>

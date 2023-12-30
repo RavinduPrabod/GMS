@@ -1,0 +1,81 @@
+﻿@model GMS.Models.MemberMaster
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="container">
+       <div class="page-header">
+              <h3 class="page-title">Member Details</h3>
+       </div>
+       <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Hoverable Table</h4>
+                    <p class="card-description"> Add class <code>.table-hover</code>
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First_Name</th>
+                                    <th>Last_Name</th>
+                                    <th>Email_Name</th>
+                                    <th>Phone</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="SetMemberList">
+                                <tr id="LoadingStatus" style="color:red"></tr>
+                            </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+
+<script>
+
+    var baseUri = "";
+
+    window.onload = function () {
+
+         // Call the SetMemberList function on page load
+        GetMembersList();
+    }
+
+
+    function GetMembersList() {
+
+        $("#SetMemberList").html(" ");
+
+        $.ajax({
+            type: 'GET',
+            url: '/Maintenance/getMembersList',
+            success: function (data) {
+
+                var obj = JSON.parse(data);
+
+                var SetData = $("#SetMemberList");
+                for (var i = 0; i < obj.length; i++) {
+
+                    var Data = "<tr class='row_" + obj[i].ID + "'>" +
+                        "<td>" + obj[i].ID + "</td>" +
+                        "<td>" + obj[i].FirstName + "</td>" +
+                        "<td>" + obj[i].LastName + "</td>" +
+                        "<td>" + obj[i].Email + "</td>" +
+                        "<td>" + obj[i].TelephoneNo + "</td>" +
+                         "</tr>";
+                    SetData.append(Data);
+                    $("#LoadingStatus").html(" ");
+
+                }
+            },
+        });
+
+    }
+    </Script>
